@@ -3,165 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Protify - A Simple Profanity Filter Guide</title>
+    <title>Protify - Open Source Filter</title>
     <style>
         :root {
-            --primary-color: #333;
-            --secondary-color: #555;
-            --accent-color: #8a2be2;
-            --bg-color: #f8f9fa;
-            --code-bg-color: #e9ecef;
-            --border-color: #dee2e6;
+            --bg-color: #FFF8E7; /* Light Creme */
+            --text-color: #5D4037; /* Dark Brown */
+            --primary-color: #FF9800; /* Orange */
+            --secondary-color: #FB8C00; /* Darker Orange */
+            --header-color: #BF360C; /* Deep Orange/Brown for headers */
+            --terminal-bg: #263238; /* Dark Grey/Blue */
+            --terminal-text: #EEFFFF;
+            --terminal-header: #455A64;
+            --code-color: #E91E63; /* Pink for inline code */
+            --border-color: #D7CCC8;
+            --prompt-bg: #fdfaf1;
+            --prompt-border: #e6dbb9;
         }
+
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Source+Code+Pro:wght@400;600&display=swap');
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.7;
-            color: var(--primary-color);
+            font-family: 'Roboto Slab', serif;
+            line-height: 1.8;
+            color: var(--text-color);
             background-color: var(--bg-color);
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
         }
+
         .container {
-            max-width: 800px;
+            max-width: 850px;
             margin: 0 auto;
             padding: 2rem;
-            flex-grow: 1;
         }
+
         header {
             text-align: center;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 2px solid var(--primary-color);
             padding-bottom: 2rem;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
         }
+
         header h1 {
-            font-size: 3rem;
-            color: var(--primary-color);
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--header-color);
             margin-bottom: 0.5rem;
+            letter-spacing: 1px;
         }
+
         header h1 span {
-            color: var(--accent-color);
-        }
-        header p {
-            font-size: 1.2rem;
-            color: var(--secondary-color);
-        }
-        section {
-            margin-bottom: 2.5rem;
-        }
-        h2 {
-            font-size: 2rem;
             color: var(--primary-color);
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
+            font-weight: 400;
         }
+
+        header p {
+            font-size: 1.3rem;
+            color: var(--text-color);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        section {
+            margin-bottom: 3rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            color: var(--header-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.75rem;
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+        
+        h3 {
+            font-size: 1.7rem;
+            color: var(--header-color);
+            font-weight: 700;
+        }
+
         p, li {
             font-size: 1.1rem;
-            color: var(--secondary-color);
+            margin-bottom: 1rem;
         }
+
         a {
-            color: var(--accent-color);
+            color: var(--secondary-color);
             text-decoration: none;
-            font-weight: 600;
-            transition: opacity 0.2s;
+            font-weight: 700;
+            border-bottom: 2px dotted var(--primary-color);
+            transition: all 0.3s;
         }
+
         a:hover {
-            opacity: 0.8;
-            text-decoration: underline;
+            color: var(--header-color);
+            background-color: rgba(255, 152, 0, 0.1);
+            border-bottom-style: solid;
         }
+
         code {
-            font-family: "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", monospace;
-            background-color: var(--code-bg-color);
+            font-family: 'Source Code Pro', monospace;
+            background-color: rgba(215, 204, 200, 0.3);
+            color: var(--code-color);
             padding: 0.2em 0.4em;
             border-radius: 4px;
             font-size: 0.9em;
-            color: #d63384;
         }
+
+        .terminal {
+            background-color: var(--terminal-bg);
+            border: 1px solid var(--terminal-header);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+        
+        .terminal-header {
+            background-color: var(--terminal-header);
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .terminal-header .button {
+            height: 12px;
+            width: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            background-color: #555;
+        }
+        .terminal-header .button.red { background-color: #FF5F56; }
+        .terminal-header .button.yellow { background-color: #FFBD2E; }
+        .terminal-header .button.green { background-color: #27C93F; }
+
         pre {
-            background-color: var(--code-bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 1rem;
+            margin: 0;
+            padding: 1.5rem;
             overflow-x: auto;
             white-space: pre-wrap;
             word-wrap: break-word;
         }
+
         pre code {
             padding: 0;
             background: none;
-            color: var(--primary-color);
+            color: var(--terminal-text);
             font-size: 0.95em;
+            line-height: 1.6;
         }
-        .step {
+        
+        .option-box {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem 2rem;
             margin-bottom: 1.5rem;
+            background-color: #fff;
         }
-        .step h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+        
+        .prompt-box {
+            background-color: var(--prompt-bg);
+            border: 1px solid var(--prompt-border);
+            border-radius: 8px;
+            padding: 1.5rem 2rem;
         }
-        .button {
-            display: inline-block;
-            background-color: var(--accent-color);
-            color: white !important;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 1rem;
+
+        .prompt-box h4 {
+            margin-top: 0;
+            font-size: 1.3rem;
         }
-        .button:hover {
-            opacity: 0.9;
-            text-decoration: none;
-        }
+
         footer {
             text-align: center;
             padding: 2rem;
-            margin-top: 2rem;
-            border-top: 1px solid var(--border-color);
-            color: #888;
+            margin-top: 3rem;
+            border-top: 2px solid var(--primary-color);
+            color: var(--secondary-color);
         }
+
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1><span>Pro</span>tify</h1>
-            <p>A simple, client-side profanity filter for your web projects.</p>
+            <h1>Protify<span>/Guide</span></h1>
+            <p>A simple, flexible, client-side profanity filter with three levels of censorship for your web projects.</p>
         </header>
 
         <section>
             <h2>What is Protify?</h2>
-            <p>Protify is a straightforward, free-to-use profanity filtering solution that runs entirely in the user's browser. It works by fetching a comprehensive JSON list of "bad words" and using a small JavaScript function to censor matching words from any text on your website. It's perfect for projects where you need to moderate user-generated content without implementing a complex server-side backend.</p>
+            <p>Protify is a straightforward, free-to-use profanity filtering solution that runs entirely in the user's browser. It works by fetching a JSON list of "inappropriate words" and using a small JavaScript function to censor them from any text on your website. It's perfect for projects where you need to moderate user-generated content without a complex server-side backend.</p>
+            <p>This guide covers the three different filtering levels you can use:</p>
+            <ul>
+                <li><strong>Broad:</strong> Censors only the most severe cuss words. Milder words like "hell" or "damn" are allowed.</li>
+                <li><strong>Standard:</strong> The original, balanced list that censors a wide range of common profanities and offensive terms.</li>
+                <li><strong>Strict:</strong> Our most comprehensive list, containing over 1,100 words for the strictest level of censorship.</li>
+            </ul>
         </section>
 
         <section>
-            <h2>How It Works</h2>
-            <p>The process is simple:</p>
-            <ol>
-                <li>Your website's JavaScript fetches the `protify-list.json` file when the page loads.</li>
-                <li>The list of words is stored in a variable in your script.</li>
-                <li>A JavaScript function, `censorText()`, takes any string of text as input.</li>
-                <li>The function compares each word in the text against the loaded word list and replaces any matches with asterisks (e.g., `****`).</li>
-                <li>The "clean" text is returned and can then be safely displayed on your page.</li>
-            </ol>
-        </section>
+            <h2>How to Apply It</h2>
+            <p>The implementation process is the same regardless of which list you choose. You just need to point the JavaScript `fetch` request to the correct JSON file url.</p>
 
-        <section>
-            <h2>Implementation Guide</h2>
-            <div class="step">
-                <h3>Step 1: Get the Wordlist</h3>
-                <p>You need the `protify-list.json` file. You can download it from the link below or copy the contents. You should host this file on your own server or within your project's repository (e.g., on GitHub Pages, Vercel, or Netlify).</p>
-                <a href="https://4simpleproblems.github.io/Protify/protify-list.json" target="_blank" class="button">Download protify-list.json</a>
+            <div class="option-box">
+                <h3>Step 1: Get the Wordlist URL</h3>
+                <p>For the filter to work, your website needs to fetch one of the three JSON wordlists. The easiest way is to pull the file directly from the official Protify GitHub repository. You do not need to download or host the file yourself.</p>
+                <p>Simply choose your desired censorship level and use the corresponding URL below:</p>
+                <ul>
+                    <li><strong>Broad List:</strong> <code>https://raw.githubusercontent.com/4simpleproblems/Protify/main/protify-list-broad.json</code></li>
+                    <li><strong>Standard List:</strong> <code>https://raw.githubusercontent.com/4simpleproblems/Protify/main/protify-list.json</code></li>
+                    <li><strong>Strict List:</strong> <code>https://raw.githubusercontent.com/4simpleproblems/Protify/main/protify-list-strict.json</code></li>
+                </ul>
             </div>
 
-            <div class="step">
+            <div class="option-box">
                 <h3>Step 2: Add the JavaScript to Your Site</h3>
-                <p>Place the following JavaScript code in your main script file or within a script tag in your HTML. This code will fetch the list and provide the censoring function.</p>
-                <pre><code>
-// Global variable to hold the list of words
+                <p>Place the following JavaScript code in your main script file or within a <code>&lt;script&gt;</code> tag in your HTML. This code provides the censoring function and fetches your chosen wordlist from the GitHub URL.</p>
+                
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="button red"></div>
+                        <div class="button yellow"></div>
+                        <div class="button green"></div>
+                    </div>
+                    <pre><code>// Global variable to hold the list of words
 let badWordsList = [];
 
 /**
@@ -170,24 +236,23 @@ let badWordsList = [];
  * @returns {string} The censored text.
  */
 function censorText(text) {
-    // Return original text if it's empty or the list hasn't loaded
     if (!text || !text.trim() || badWordsList.length === 0) {
         return text;
     }
-    // Create a regular expression for whole-word, case-insensitive matching
     const regex = new RegExp(`\\b(${badWordsList.join('|')})\\b`, 'gi');
     return text.replace(regex, match => '*'.repeat(match.length));
 }
 
 // Fetch the profanity list when the page loads
 document.addEventListener('DOMContentLoaded', () => {
-    // IMPORTANT: Replace this URL with the URL where YOU are hosting the JSON file.
-    const jsonListUrl = 'https://4simpleproblems.github.io/Protify/protify-list.json';
+    // --- CHOOSE YOUR CENSORSHIP LEVEL ---
+    // Change the URL to 'broad' or 'strict' to change the filter level.
+    const jsonListUrl = 'https://raw.githubusercontent.com/4simpleproblems/Protify/main/protify-list.json'; // Standard list by default
 
     fetch(jsonListUrl)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response for wordlist was not ok');
+                throw new Error(`Network response for wordlist was not ok (${response.statusText})`);
             }
             return response.json();
         })
@@ -195,35 +260,28 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data && data.words) {
                 badWordsList = data.words;
                 console.log('Protify profanity list loaded successfully.');
-                // You can optionally run a function here to censor existing content
             }
         })
         .catch(error => {
             console.error('Failed to load Protify profanity list:', error);
-            // The app will continue to function, just without censoring.
         });
-});
-                </code></pre>
+});</code></pre>
+                </div>
             </div>
-            
-            <div class="step">
-                <h3>Step 3: Use the Function</h3>
-                <p>Now you can use the <code>censorText()</code> function anywhere in your code to clean text before displaying it.</p>
-                <pre><code>
-// Example: Censoring a user comment before displaying it
+        </section>
+        
+        <section>
+            <h2>Automate with AI</h2>
+            <p>You can use an AI assistant to automatically add the Protify profanity filter to your website. This is a great option if you're not comfortable editing code yourself. Just provide the AI with your website's HTML code and the prompt below.</p>
+            <div class="prompt-box">
+                <h4>Copy this prompt for your AI:</h4>
+                <p>Just copy the text below and paste it into the AI chat, followed by your website's full HTML code.</p>
+                <div class="terminal">
+                    <pre><code>Hello! Please update the following HTML code to include the Protify profanity filter. The Protify profanity filter is in this URL: https://github.com/4simpleproblems/Protify/
 
-// Get the user's raw input
-const rawComment = "This is some bullshit that should be censored.";
-
-// Censor the text using the function
-const cleanComment = censorText(rawComment);
-
-// Display the clean text on your page
-const commentElement = document.getElementById('user-comment-display');
-commentElement.textContent = cleanComment;
-
-// The output will be: "This is some ******** that should be censored."
-                </code></pre>
+Here is my HTML code:
+[PASTE YOUR FULL HTML CODE HERE]</code></pre>
+                </div>
             </div>
         </section>
 
